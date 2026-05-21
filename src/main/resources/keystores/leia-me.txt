@@ -1,0 +1,19 @@
+AS KEYSTORES SÃO UTILIZADAS NAS CONFIGURAÇÕES DE SSL DA API, ASSIM COMO NA EMISSÃO DE TOKENS DE AUTENTICAÇÃO JWT.
+DATA DE CRIAÇÃO DAS KEY STORES: 19/05/2026
+ 
+key-store-password:
+  JKS: pFqYc4v6SD6XMpl5EeOJF3JA7umP57CWbGp55GvFZAweHRGH
+  PKCS12: uHTYdyJP7TzQZidEipAZAV89gBc9R4hi0hHEFZgrXR5oTWFP
+ 
+key-alias:
+  JKS:
+      dev-jwt-key-adotapet-backend
+      hml-jwt-key-adotapet-backend
+      prd-jwt-key-adotapet-backend
+  PKCS12:
+      dev-ssl-key-adotapet-backend
+ 
+key-password (apenas no formato JKS):
+	dev: x49DErj2Lc9Gdt4DE57t6yQY
+	hml: JtCbG4fvZyIi11ygMiqA1K0z
+	prd: Ovd6zXDH3p3TgaJ95a7AVwdU

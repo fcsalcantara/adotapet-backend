@@ -1,0 +1,12 @@
+---
+lowercaseOutputLabelNames: true
+lowercaseOutputName: true
+whitelistObjectNames:
+  - "Catalina:*"
+  - "java.lang:*"
+
+rules:
+  - pattern: "^java.lang<type=OperatingSystem><>(.+):"
+    attrNameSnakeCase: false
+    name: java_lang_operatingsystem_$1
+  - pattern: ".*"

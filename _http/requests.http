@@ -1,0 +1,12 @@
+### Verifica se a aplicação está online e obtém informações da API
+GET https://localhost:8080/api/info
+
+
+### Obter um token de autenticação
+POST https://localhost:8080/autenticacao/login
+Content-Type: application/json
+
+{
+  "login": "username",
+  "senha": "adota@local1"
+}
