@@ -34,7 +34,7 @@ public class OpenApiConfig {
     private String datasourceJdbc;
 
     @Value("${spring.datasource.username}")
-    private String datasourceUser */;
+    private String datasourceUser; */
 
     @Bean
     protected OpenAPI openAPI() {

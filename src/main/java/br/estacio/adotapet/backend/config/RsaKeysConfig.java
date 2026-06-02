@@ -43,10 +43,8 @@ public class RsaKeysConfig {
         try {
 
             keyStore = KeyStore.getInstance("jks");
-
             InputStream keystoreAsStream = Thread.currentThread().getContextClassLoader()
                     .getResourceAsStream(keyStoreCaminho);
-
             keyStore.load(keystoreAsStream, keyStoreSenha.toCharArray());
         } catch (CertificateException | KeyStoreException | IOException | NoSuchAlgorithmException e) {
             throw new IllegalArgumentException("Não foi possível carregar a Key Store.");

@@ -2,7 +2,7 @@ package br.estacio.adotapet.backend.config;
 
 import br.estacio.adotapet.backend.config.filter.AutenticacaoFilter;
 import br.estacio.adotapet.backend.config.service.JwtService;
-import br.estacio.adotapet.backend.config.service.UsuarioService;
+import br.estacio.adotapet.backend.config.service.UsuarioAutenticacaoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,11 +27,11 @@ public class SecurityConfig {
     private final AutenticacaoFilter autenticacaoFilter;
 
     protected SecurityConfig(JwtService jwtService,
-                             UsuarioService usuarioService,
+                             UsuarioAutenticacaoService usuarioAutenticacaoService,
                              AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 
-        autenticacaoFilter = new AutenticacaoFilter(jwtService, usuarioService);
-        authenticationManagerBuilder.userDetailsService(usuarioService).passwordEncoder(new BCryptPasswordEncoder());
+        autenticacaoFilter = new AutenticacaoFilter(jwtService, usuarioAutenticacaoService);
+        authenticationManagerBuilder.userDetailsService(usuarioAutenticacaoService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Bean
@@ -51,12 +51,13 @@ public class SecurityConfig {
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers(SWAGGER_PATTERNS).hasRole(UsuarioService.ROLE_SWAGGER))
+                        .requestMatchers(SWAGGER_PATTERNS).hasRole(UsuarioAutenticacaoService.ROLE_SWAGGER))
                 .httpBasic(withDefaults())
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(HttpMethod.GET, CHECK_PATTERN).permitAll()
                         .requestMatchers(HttpMethod.POST, LOGIN_PATTERN).permitAll()
-                        .anyRequest().hasRole(UsuarioService.ROLE_ACESSOAPI))
+                        .anyRequest().hasAnyRole(UsuarioAutenticacaoService.ROLE_ACESSOAPI,
+                                UsuarioAutenticacaoService.ROLE_USUARIO))
                 .sessionManagement(sessionManagementConfigurer ->
                         sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(autenticacaoFilter, UsernamePasswordAuthenticationFilter.class)

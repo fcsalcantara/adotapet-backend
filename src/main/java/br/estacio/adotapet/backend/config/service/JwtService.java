@@ -5,8 +5,6 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.interfaces.RSAPrivateKey;
@@ -34,18 +32,17 @@ public class JwtService {
     /**
      * Gera um novo token de autenticação.
      *
-     * @param authentication Uma autenticação do Spring Security.
+     * @param login Um email válido.
      * @return O token de autenticação com o prefixo "Bearer" já adicionado.
      */
-    public String geraToken(@NonNull Authentication authentication) {
+    public String geraToken(@NonNull String login) {
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Date inicioValidade = new Date();
         Date finalValidade = new Date(inicioValidade.getTime() + Long.parseLong(expiration));
 
         JwtBuilder jwtBuilder = Jwts.builder()
                 .issuer("backend.adotapet.estacio.br")
-                .subject(userDetails.getUsername())
+                .subject(login)
                 .notBefore(inicioValidade)
                 .issuedAt(inicioValidade)
                 .expiration(finalValidade)

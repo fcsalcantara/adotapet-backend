@@ -1,7 +1,7 @@
 package br.estacio.adotapet.backend.config.filter;
 
 import br.estacio.adotapet.backend.config.service.JwtService;
-import br.estacio.adotapet.backend.config.service.UsuarioService;
+import br.estacio.adotapet.backend.config.service.UsuarioAutenticacaoService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,11 +27,11 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
     private final JwtService JwtService;
 
     // Para obter uma instância de UserDetails, necessária para autenticação com Spring Security.
-    private final UsuarioService usuarioService;
+    private final UsuarioAutenticacaoService usuarioAutenticacaoService;
 
-    public AutenticacaoFilter(JwtService JwtService, UsuarioService usuarioService) {
+    public AutenticacaoFilter(JwtService JwtService, UsuarioAutenticacaoService usuarioAutenticacaoService) {
         this.JwtService = JwtService;
-        this.usuarioService = usuarioService;
+        this.usuarioAutenticacaoService = usuarioAutenticacaoService;
     }
 
     @Override
@@ -71,9 +71,9 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
         String subject = JwtService.obtemSubject(token);
         UserDetails usuario;
         try {
-            usuario = usuarioService.loadUserByUsername(subject);
+            usuario = usuarioAutenticacaoService.loadUserByUsername(subject);
         } catch (UsernameNotFoundException e) {
-            return;
+            return; // Nega a autenticação.
         }
 
         UsernamePasswordAuthenticationToken authentication =

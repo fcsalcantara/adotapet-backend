@@ -14,9 +14,9 @@ ENV PROMETHEUS_DIR="${ADOTAPET_DIR}/prometheus"
 
 # Para corrigir um problema de acesso às URLs externas.
 # É necessário importar para imagem o certificado CA autoassinado.
-COPY docker/ngfw.cer /etc/pki/ca-trust/source/anchors/ngfw.cer
-RUN update-ca-trust enable
-RUN update-ca-trust extract
+#COPY docker/ngfw.cer /etc/pki/ca-trust/source/anchors/ngfw.cer
+#RUN update-ca-trust enable
+#RUN update-ca-trust extract
 
 # ####### TO REMOVE - END #######
 

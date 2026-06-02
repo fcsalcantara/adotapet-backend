@@ -11,7 +11,11 @@ import lombok.Getter;
 @Getter
 public enum ExcecaoApiEnum {
 
-    FalhaAutenticacaoAcessoApi("Falha na autenticação do acesso ao serviço.");
+    FalhaAutenticacaoAcessoApi("Falha na autenticação do acesso ao serviço."),
+    FalhaBuscaDadosUsuario("Falha ao tentar obter os dados do usuário autenticado."),
+    FalhaAoCriarUsuario("Falha ao criar um novo usuário."),
+    FalhaAoAtualizarUsuario("Falha ao atualizar os dados do usuário autenticado."),
+    FalhaAoExcluirrUsuario("Falha ao excluir os dados do usuário autenticado.");
 
     private final String mensagem;
 }

@@ -1,5 +1,9 @@
 package br.estacio.adotapet.backend.config.service;
 
+import br.estacio.adotapet.backend.model.TbUsuario;
+import br.estacio.adotapet.backend.repository.TbUsuarioRepository;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,16 +13,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * Para retornar uma implementação de UserDetails.
  * <br>
  * A implementação de UserDetails é necessária na autenticação com Spring Security.
  */
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Service
-public class UsuarioService implements UserDetailsService {
+public class UsuarioAutenticacaoService implements UserDetailsService {
 
     public static final String ROLE_ACESSOAPI = "ACESSOAPI";
+    public static final String ROLE_USUARIO = "USUARIO";
     public static final String ROLE_SWAGGER = "SWAGGER";
+
+    private final TbUsuarioRepository tbUsuarioRepository;
 
     // Nome identificador da autenticação para acesso à API.
     @Value("${adotapet.api.nome-acesso}")
@@ -39,7 +49,7 @@ public class UsuarioService implements UserDetailsService {
     /**
      * Sobrescrito para obter uma instância de UserDetails, que representa um usuário da API.
      *
-     * @param username O username ou login do usuário.
+     * @param username O username ou email do usuário.
      * @return Uma implementação de UserDetails, com os dados do usuário retornado na busca.
      * @throws UsernameNotFoundException Lançada quando o username do usuário não foi encontrado na busca.
      */
@@ -48,6 +58,7 @@ public class UsuarioService implements UserDetailsService {
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+        // Autenticação de acesso à API.
         if (apiAcessoNome.equals(username))
             return User.builder()
                     .username(apiAcessoNome)
@@ -55,6 +66,12 @@ public class UsuarioService implements UserDetailsService {
                     .roles(ROLE_ACESSOAPI)
                     .build();
 
+        // Autenticação dos usuários cadastrados.
+        Optional<TbUsuario> usuario = tbUsuarioRepository.findByEmail(username);
+        if (usuario.isPresent() && usuario.get().isEnabled())
+            return usuario.get();
+
+        // Autenticação de acesso ao Swagger (documentação da API).
         if (swaggerAcessoNome.equals(username))
             return User.builder()
                     .username(swaggerAcessoNome)

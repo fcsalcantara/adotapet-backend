@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,17 +39,18 @@ public class AutenticacaoService {
 
         // O usuário de acesso ao Swagger não poderá obter token de autenticação.
         // Seu acesso será somente por HTTP Basic à página do Swagger.
-        if (dto.login().equals(swaggerAcessoNome))
+        if (dto.email().equals(swaggerAcessoNome))
             throw new ExcecaoApi(ExcecaoApiEnum.FalhaAutenticacaoAcessoApi);
 
         UsernamePasswordAuthenticationToken usernamePassword =
-                new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
+                new UsernamePasswordAuthenticationToken(dto.email(), dto.senha());
         try {
 
             // Aqui é executada a autenticação com o Spring Security.
             Authentication authentication = authenticationManager.authenticate(usernamePassword);
+            String login = ((UserDetails) authentication.getPrincipal()).getUsername();
 
-            return new TokenAutenticacaoDto(jwtService.geraToken(authentication));
+            return new TokenAutenticacaoDto(jwtService.geraToken(login));
         } catch (AuthenticationException e) {
             throw new ExcecaoApi(ExcecaoApiEnum.FalhaAutenticacaoAcessoApi);
         }
