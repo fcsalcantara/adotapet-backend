@@ -12,12 +12,13 @@ alter
 role adotapet password 'adotapet'; -- colocar a senha
 
 create
-database adotapet
-	with
-	encoding = 'utf8'
-	lc_collate = 'pt_br.utf-8'
-	lc_ctype = 'pt_br.utf-8'
-	connection limit = -1;
+    database adotapet
+    with
+    template template0
+    encoding 'UTF8'
+    lc_collate 'pt_BR.UTF-8'
+    lc_ctype 'pt_BR.UTF-8'
+    connection limit -1;
 alter
 database adotapet owner to adotapet;
 grant all

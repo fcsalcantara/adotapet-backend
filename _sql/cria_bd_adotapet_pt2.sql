@@ -21,3 +21,28 @@ create table adotapet.tb_usuarios
 alter table adotapet.tb_usuarios
     owner to adotapet;
 grant all on table adotapet.tb_usuarios to adotapet;
+
+
+create table adotapet.tb_animais
+(
+    id         bigint generated always as identity primary key,
+    nome       varchar(100) not null,
+    tipo       varchar(20)  not null check (tipo in ('CAO', 'GATO')),
+    sexo       varchar(20)  not null check (sexo in ('MACHO', 'FEMEA')),
+    idade      integer      not null,
+    porte      varchar(20)  not null check (porte in ('PEQUENO', 'MEDIO', 'GRANDE')),
+    foto       text         not null,
+    descricao  text,
+    status     varchar(20)  not null default 'DISPONIVEL' check (status in ('DISPONIVEL', 'ADOTADO')),
+    usuario_id bigint       not null,
+    dt_criacao timestamptz  not null default current_timestamp,
+    habilitado boolean      not null default true,
+
+    constraint fk_animal_usuario
+        foreign key (usuario_id)
+            references adotapet.tb_usuarios (id)
+            on delete cascade
+);
+alter table adotapet.tb_animais
+    owner to adotapet;
+grant all on table adotapet.tb_animais to adotapet;
