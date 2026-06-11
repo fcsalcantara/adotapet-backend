@@ -1,9 +1,11 @@
 package br.estacio.adotapet.backend.rest;
 
+import br.estacio.adotapet.backend.config.OpenApiConfig;
 import br.estacio.adotapet.backend.dto.in.AnimalCreateDto;
 import br.estacio.adotapet.backend.dto.out.AnimalDto;
 import br.estacio.adotapet.backend.service.AnimalService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +21,7 @@ import java.util.List;
  * REST Controller para endpoints relacionados ao CRUD de Usuários.
  */
 @RequestMapping(AnimalController.BASE_MAPPING)
+@SecurityRequirement(name = OpenApiConfig.SECURITYSCHEME_NAME)
 @Tag(name = AnimalController.BASE_MAPPING, description = "Endpoints relacionados ao CRUD de Animais (Pets)")
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @RestController

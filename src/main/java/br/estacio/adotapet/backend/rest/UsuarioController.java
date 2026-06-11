@@ -1,11 +1,13 @@
 package br.estacio.adotapet.backend.rest;
 
+import br.estacio.adotapet.backend.config.OpenApiConfig;
 import br.estacio.adotapet.backend.dto.in.UsuarioCreateDto;
 import br.estacio.adotapet.backend.dto.in.UsuarioUpdateDto;
 import br.estacio.adotapet.backend.dto.out.TokenAutenticacaoDto;
 import br.estacio.adotapet.backend.dto.out.UsuarioCadastradoDto;
 import br.estacio.adotapet.backend.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * REST Controller para endpoints relacionados ao CRUD de Usuários.
  */
 @RequestMapping(UsuarioController.BASE_MAPPING)
+@SecurityRequirement(name = OpenApiConfig.SECURITYSCHEME_NAME)
 @Tag(name = UsuarioController.BASE_MAPPING, description = "Endpoints relacionados ao CRUD de Usuários")
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @RestController
