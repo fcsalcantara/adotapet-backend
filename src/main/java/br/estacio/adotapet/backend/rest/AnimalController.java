@@ -30,7 +30,7 @@ public class AnimalController {
     /*
      * Constantes para mapeamento dos endpoints:
      */
-    static final String BASE_MAPPING = "/animal";
+    static final String BASE_MAPPING = "/animais";
     private static final String CREATE_MAPPING = "create";
     private static final String READ_MAPPING = "read";
     private static final String UPDATE_MAPPING = "update";

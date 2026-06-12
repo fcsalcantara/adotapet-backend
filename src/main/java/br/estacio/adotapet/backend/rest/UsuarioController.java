@@ -30,7 +30,7 @@ public class UsuarioController {
     /*
      * Constantes para mapeamento dos endpoints:
      */
-    static final String BASE_MAPPING = "/usuario";
+    static final String BASE_MAPPING = "/usuarios";
     private static final String CREATE_MAPPING = "create";
     private static final String READ_MAPPING = "read";
     private static final String UPDATE_MAPPING = "update";
